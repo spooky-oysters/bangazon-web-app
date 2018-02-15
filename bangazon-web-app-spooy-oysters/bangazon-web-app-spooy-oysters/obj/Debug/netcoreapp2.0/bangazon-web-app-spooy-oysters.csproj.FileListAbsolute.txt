@@ -1,0 +1,11 @@
+C:\Users\drera_000\.babun\cygwin\home\drera_000\workspace\bangazon-web-app\bangazon-web-app-spooy-oysters\bangazon-web-app-spooy-oysters\bin\Debug\netcoreapp2.0\bangazon-web-app-spooy-oysters.deps.json
+C:\Users\drera_000\.babun\cygwin\home\drera_000\workspace\bangazon-web-app\bangazon-web-app-spooy-oysters\bangazon-web-app-spooy-oysters\bin\Debug\netcoreapp2.0\bangazon-web-app-spooy-oysters.runtimeconfig.json
+C:\Users\drera_000\.babun\cygwin\home\drera_000\workspace\bangazon-web-app\bangazon-web-app-spooy-oysters\bangazon-web-app-spooy-oysters\bin\Debug\netcoreapp2.0\bangazon-web-app-spooy-oysters.runtimeconfig.dev.json
+C:\Users\drera_000\.babun\cygwin\home\drera_000\workspace\bangazon-web-app\bangazon-web-app-spooy-oysters\bangazon-web-app-spooy-oysters\bin\Debug\netcoreapp2.0\bangazon-web-app-spooy-oysters.dll
+C:\Users\drera_000\.babun\cygwin\home\drera_000\workspace\bangazon-web-app\bangazon-web-app-spooy-oysters\bangazon-web-app-spooy-oysters\bin\Debug\netcoreapp2.0\bangazon-web-app-spooy-oysters.pdb
+C:\Users\drera_000\.babun\cygwin\home\drera_000\workspace\bangazon-web-app\bangazon-web-app-spooy-oysters\bangazon-web-app-spooy-oysters\obj\Debug\netcoreapp2.0\bangazon-web-app-spooy-oysters.csprojResolveAssemblyReference.cache
+C:\Users\drera_000\.babun\cygwin\home\drera_000\workspace\bangazon-web-app\bangazon-web-app-spooy-oysters\bangazon-web-app-spooy-oysters\obj\Debug\netcoreapp2.0\bangazon-web-app-spooy-oysters.csproj.CoreCompileInputs.cache
+C:\Users\drera_000\.babun\cygwin\home\drera_000\workspace\bangazon-web-app\bangazon-web-app-spooy-oysters\bangazon-web-app-spooy-oysters\obj\Debug\netcoreapp2.0\bangazon-web-app-spooy-oysters.AssemblyInfoInputs.cache
+C:\Users\drera_000\.babun\cygwin\home\drera_000\workspace\bangazon-web-app\bangazon-web-app-spooy-oysters\bangazon-web-app-spooy-oysters\obj\Debug\netcoreapp2.0\bangazon-web-app-spooy-oysters.AssemblyInfo.cs
+C:\Users\drera_000\.babun\cygwin\home\drera_000\workspace\bangazon-web-app\bangazon-web-app-spooy-oysters\bangazon-web-app-spooy-oysters\obj\Debug\netcoreapp2.0\bangazon-web-app-spooy-oysters.dll
+C:\Users\drera_000\.babun\cygwin\home\drera_000\workspace\bangazon-web-app\bangazon-web-app-spooy-oysters\bangazon-web-app-spooy-oysters\obj\Debug\netcoreapp2.0\bangazon-web-app-spooy-oysters.pdb
