@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using bangazon_web_app.Models;
-using bangazon_web_app.Models.AccountViewModels;
-using bangazon_web_app.Services;
+using Bangazon.Models;
+using Bangazon.Models.AccountViewModels;
+using Bangazon.Services;
 
-namespace bangazon_web_app.Controllers
+namespace Bangazon.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]

@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using bangazon_web_app.Models;
-using bangazon_web_app.Models.ManageViewModels;
-using bangazon_web_app.Services;
+using Bangazon.Models;
+using Bangazon.Models.ManageViewModels;
+using Bangazon.Services;
 
-namespace bangazon_web_app.Controllers
+namespace Bangazon.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
@@ -522,7 +522,7 @@ namespace bangazon_web_app.Controllers
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("bangazon_web_app"),
+                _urlEncoder.Encode("Bangazon"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace bangazon_web_app.Models.ManageViewModels
+namespace Bangazon.Models.ManageViewModels
 {
     public class IndexViewModel
     {

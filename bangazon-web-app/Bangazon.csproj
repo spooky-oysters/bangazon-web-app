@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <UserSecretsId>aspnet-bangazon_web_app-721D7009-606E-4C26-93CA-2D813FAB5074</UserSecretsId>
+    <RootNamespace>Bangazon</RootNamespace>
   </PropertyGroup>
 
 

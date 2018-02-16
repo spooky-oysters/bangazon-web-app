@@ -1,4 +1,4 @@
-﻿@using bangazon_web_app.Views.Manage
+﻿@using Bangazon.Views.Manage
 @inject SignInManager<ApplicationUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();

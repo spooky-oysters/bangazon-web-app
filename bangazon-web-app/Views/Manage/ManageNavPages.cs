@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace bangazon_web_app.Views.Manage
+namespace Bangazon.Views.Manage
 {
     public static class ManageNavPages
     {
