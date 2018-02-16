@@ -11,6 +11,7 @@ namespace Bangazon.Models
         [Key]
         public int ProductId { get; set; }
 
+        [Required]
         public int Quantity { get; set; }
 
         [Required]
@@ -38,7 +39,7 @@ namespace Bangazon.Models
 
         public ProductType ProductType { get; set; }
 
-        public virtual ICollection<LineItem> LineItems { get; set; }
+ 
 
     }
 }

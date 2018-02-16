@@ -14,8 +14,12 @@ namespace Bangazon.Data
             : base(options)
         {}
 
+            public DbSet<Order> Order { get; set; }
+            public DbSet<LineItem> LineItem { get; set; }
+            public DbSet<PaymentType> PaymentType { get; set; }
             public DbSet<Product> Product { get; set; }
             public DbSet<ProductType> ProductType { get; set; }
+            
 
         
 

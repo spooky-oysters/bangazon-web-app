@@ -15,7 +15,8 @@ namespace Bangazon.Data
         {
             using (var context = new ApplicationDbContext(serviceProvider.GetRequiredService<DbContextOptions<ApplicationDbContext>>()))
             {
-                // Look for any products.
+
+                // Look for any products types.
                 if (context.ProductType.Any())
                 {
                     return;   // DB has been seeded
