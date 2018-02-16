@@ -12,10 +12,14 @@ namespace bangazon_web_app.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
-        {
-        }
+        {}
 
-        protected override void OnModelCreating(ModelBuilder builder)
+            public DbSet<Product> Product { get; set; }
+            public DbSet<ProductType> ProductType { get; set; }
+
+        
+
+    protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.
