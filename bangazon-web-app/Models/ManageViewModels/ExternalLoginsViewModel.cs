@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 
-namespace bangazon_web_app.Models.ManageViewModels
+namespace Bangazon.Models.ManageViewModels
 {
     public class ExternalLoginsViewModel
     {

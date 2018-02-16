@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using bangazon_web_app.Models;
+using Bangazon.Models;
 
-namespace bangazon_web_app.Controllers
+namespace Bangazon.Controllers
 {
     public class HomeController : Controller
     {

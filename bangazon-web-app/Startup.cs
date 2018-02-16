@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using bangazon_web_app.Data;
-using bangazon_web_app.Models;
-using bangazon_web_app.Services;
+using Bangazon.Data;
+using Bangazon.Models;
+using Bangazon.Services;
 
-namespace bangazon_web_app
+namespace Bangazon
 {
     public class Startup
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace bangazon_web_app.Models
+namespace Bangazon.Models
 {
     public class ErrorViewModel
     {

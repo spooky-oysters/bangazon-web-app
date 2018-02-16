@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using bangazon_web_app.Services;
+using Bangazon.Services;
 
-namespace bangazon_web_app.Services
+namespace Bangazon.Services
 {
     public static class EmailSenderExtensions
     {

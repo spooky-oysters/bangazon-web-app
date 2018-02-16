@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace bangazon-web-app.Models
+namespace Bangazon.Models
 {
-    public class ProductTypecs
+    public class LineItem
     {
     }
 }

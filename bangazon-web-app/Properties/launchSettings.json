@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "bangazon_web_app": {
+    "Bangazon": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
