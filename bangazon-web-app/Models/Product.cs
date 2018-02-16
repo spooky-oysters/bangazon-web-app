@@ -39,7 +39,7 @@ namespace Bangazon.Models
 
         public ProductType ProductType { get; set; }
 
- 
+        public virtual ICollection<LineItem> LineItem { get; set; }
 
     }
 }
