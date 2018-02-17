@@ -11,8 +11,8 @@ using System;
 namespace Bangazon.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180216200602_AddedLineItem")]
-    partial class AddedLineItem
+    [Migration("20180217002437_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -6,6 +6,15 @@
     <RootNamespace>Bangazon</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\20180216234024_initial_migration.cs" />
+    <Compile Remove="Data\Migrations\20180216234024_initial_migration.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180217000807_removeCascadeDeleteOnLineItemTable.cs" />
+    <Compile Remove="Data\Migrations\20180217000807_removeCascadeDeleteOnLineItemTable.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180217002358_initial.cs" />
+    <Compile Remove="Data\Migrations\20180217002358_initial.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
