@@ -32,9 +32,9 @@
             <div class="navbar-left" style="margin-top:8px;">
                 @using (Html.BeginForm("Index", "Search", FormMethod.Get))
                 {
-                    <ul class="nav navbar-nav">
+                    <ul class="nav navbar-left navbar-nav">
                         <li>@Html.TextBox("id", ViewBag.CurrentFilter as string)</li>
-                        <li><<input asp-controller="Products" asp-action="Products" type="submit" value="Search" /></li>
+                        <li><<input asp-controller="Products" asp-action="Products" type="submit" value="Search For a Product" /></li>
                     </ul>
                 }
             </div>
@@ -43,7 +43,6 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    <li><a asp-area="" asp-controller="Products" asp-action="Products">Search for a Product</a></li>
                 </ul>
                 </div>
                 @await Html.PartialAsync("_LoginPartial")
