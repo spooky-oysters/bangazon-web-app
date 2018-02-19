@@ -45,6 +45,35 @@ namespace Bangazon.Controllers
             return View(product);
         }
 
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SearchString(string titleString)
+        {
+            if (titleString == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _context.Product
+                .Include(p => p.ProductType)
+                .SingleOrDefaultAsync(m => m.Title.Contains(titleString));
+
+            //if (!String.IsNullOrEmpty(Title))
+            //{
+            //    product = _context.Product.Where(s => s.Title.);
+            //}
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
+        }
+
+
         // GET: Products/Create
         public IActionResult Create()
         {
