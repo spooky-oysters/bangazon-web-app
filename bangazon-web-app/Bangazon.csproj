@@ -13,6 +13,8 @@
     <Compile Remove="Data\Migrations\20180217000807_removeCascadeDeleteOnLineItemTable.Designer.cs" />
     <Compile Remove="Data\Migrations\20180217002358_initial.cs" />
     <Compile Remove="Data\Migrations\20180217002358_initial.Designer.cs" />
+    <Compile Remove="Data\Migrations\20180219222212_removedRequiredDateCreatedPaymentType.cs" />
+    <Compile Remove="Data\Migrations\20180219222212_removedRequiredDateCreatedPaymentType.Designer.cs" />
   </ItemGroup>
 
 

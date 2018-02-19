@@ -67,10 +67,10 @@ namespace Bangazon.Controllers
         {
             ModelState.Remove("paymentType.User");
 
-            var user = await GetCurrentUserAsync();
-            paymentType.User = user;
             if (ModelState.IsValid)
             {
+                var user = await GetCurrentUserAsync();
+                paymentType.User = user;
                 _context.Add(paymentType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
