@@ -30,6 +30,13 @@ namespace Bangazon.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
 
+            builder.Entity<Product>()
+                .Property(p => p.DateCreated)
+                .HasDefaultValueSql("GETDATE()");
+
+            builder.Entity<Order>()
+                .Property(o => o.CreatedDate)
+                .HasDefaultValueSql("GETDATE()");
 
         }
     }
