@@ -151,11 +151,17 @@ namespace Bangazon.Data.Migrations
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("City");
+
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(255);
+
+                    b.Property<string>("Image");
+
+                    b.Property<bool>("LocalDelivery");
 
                     b.Property<double>("Price");
 

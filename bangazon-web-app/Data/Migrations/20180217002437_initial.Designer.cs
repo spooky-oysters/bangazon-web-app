@@ -11,8 +11,8 @@ using System;
 namespace Bangazon.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180216180035_InitialMigration2")]
-    partial class InitialMigration2
+    [Migration("20180217002437_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -310,7 +310,7 @@ namespace Bangazon.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Bangazon.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("LineItem")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
