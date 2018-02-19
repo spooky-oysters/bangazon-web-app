@@ -12,15 +12,17 @@ namespace Bangazon.Models
 
         [Required]
         [DataType(DataType.Date)]
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]       
         public DateTime DateCreated { get; set; }
 
         [Required]
         [StringLength(12)]
+        [Display(Name = "Type")]
         public string Description { get; set; }
 
         [Required]
         [StringLength(20)]
+        [Display(Name = "Account Number")]
         public string AccountNumber { get; set; }
 
         [Required]
