@@ -11,8 +11,8 @@ using System;
 namespace Bangazon.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180216200602_AddedLineItem")]
-    partial class AddedLineItem
+    [Migration("20180219160825_productTableUpdate")]
+    partial class productTableUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -152,11 +152,17 @@ namespace Bangazon.Data.Migrations
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("City");
+
                     b.Property<DateTime>("DateCreated");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(255);
+
+                    b.Property<string>("Image");
+
+                    b.Property<bool>("LocalDelivery");
 
                     b.Property<double>("Price");
 
