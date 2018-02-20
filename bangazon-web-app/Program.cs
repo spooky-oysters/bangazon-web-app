@@ -20,16 +20,21 @@ namespace Bangazon
         {
             var host = BuildWebHost(args);
 
+            /*
+                Author: Krys Mathis
+                Summary: Initiates the process to seed the database. The method
+                        uses the service provider to send a user manager
+                        to the DbInitializer.Initalize static method.
+                        Errors are logged and sent to the console.
+            */
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
                 try
                 {
-                    // generating the database context and user manager to pass into
-                    // the initializer
-                    var context = services.GetRequiredService<ApplicationDbContext>();
                     var userManager = services.GetService<UserManager<ApplicationUser>>();
-                    DbInitializer.Initialize(context, userManager);
+                    DbInitializer.Initialize(services,  userManager);
+                    
                 }
                 catch (Exception ex)
                 {

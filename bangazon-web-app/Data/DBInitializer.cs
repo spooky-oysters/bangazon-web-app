@@ -12,18 +12,24 @@ namespace Bangazon.Data
 {
     public static class DbInitializer
     {
-        public static void Initialize(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        /*
+            Author: Krys Mathis (adapted from boilerplate)
+            Summary: The initialize method seeds the database. The 
+        */
+        public static void Initialize(IServiceProvider services, UserManager<ApplicationUser> userManager)
         {
-            using (context)
+            using (var context = services.GetRequiredService<ApplicationDbContext>())
             {
-                // clear the database
-                //context.Database.ExecuteSqlCommand("DELETE FROM [ProductType]");
-                context.Database.ExecuteSqlCommand("DELETE FROM [LineItem]");
-                context.Database.ExecuteSqlCommand("DELETE FROM [Order]");
-                context.Database.ExecuteSqlCommand("DELETE FROM [PaymentType]");
-                context.Database.ExecuteSqlCommand("DELETE FROM [Product]");
+                //clear the database
+                /*
+                    context.Database.ExecuteSqlCommand("DELETE FROM [ProductType]");
+                    context.Database.ExecuteSqlCommand("DELETE FROM [LineItem]");
+                    context.Database.ExecuteSqlCommand("DELETE FROM [Order]");
+                    context.Database.ExecuteSqlCommand("DELETE FROM [PaymentType]");
+                    context.Database.ExecuteSqlCommand("DELETE FROM [Product]");
+                */
 
-                // Look for any products types.
+                // If there are any product types already don't overwrite them
                 if (!context.ProductType.Any())
                 {
                     var productTypes = new ProductType[]
@@ -195,7 +201,7 @@ namespace Bangazon.Data
 
                 }
 
-                // generic line items
+                // uno's open orders
                 Product uno1 = context.Product.Where(p => p.Title == "Dos Electronics 1").Single();
                 Product uno2 = context.Product.Where(p => p.Title == "Tres Appliances 1").Single();
                 List<Product> productListUno1 = new List<Product>() { uno1, uno2};
@@ -286,10 +292,9 @@ namespace Bangazon.Data
                            productListTres2
                          }
 
-
                     };
 
-
+                    // loop through the orders
                     foreach (var kvp in orders)
                     {
 
