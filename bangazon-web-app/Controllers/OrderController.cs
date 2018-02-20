@@ -7,22 +7,41 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Bangazon.Data;
 using Bangazon.Models;
+using Bangazon.Models.OrderViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace Bangazon.Controllers
 {
     public class OrderController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrderController(ApplicationDbContext context)
+        public OrderController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
+
+        // This task retrieves the currently authenticated user
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
+        
         // GET: Order
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Order.ToListAsync());
+            ShoppingCartViewModel model = new ShoppingCartViewModel();
+            ApplicationUser user = await GetCurrentUserAsync();
+
+            // loop through the correct order and display it
+            // each line will be a shopping cart view model
+            // will be appended to the model
+            
+            // if this is null then there are no active orders
+            var userOrders = _context.Order.Where(o => o.User == user && o.CompletedDate == null).SingleOrDefault();
+            var userLineItems = _context.LineItem.Where(l => l.OrderId == userOrders.OrderId);   
+
+            return View(await userLineItems.ToListAsync());
         }
 
         // GET: Order/Details/5
