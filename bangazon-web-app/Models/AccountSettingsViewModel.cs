@@ -9,14 +9,24 @@ namespace Bangazon.Models
 {
     public class AccountSettingsViewModel
     {
-        public ApplicationUser User { get; set; }
+        [Required]
+        [StringLength(55, ErrorMessage = "The {0} must be no longer than {1} characters long.")]
+        [DataType(DataType.Text)]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
 
-        public ICollection<PaymentType> PaymentOptions { get; set; }
-        public ICollection<Order> OrderHistory { get; set; }
+        [Required]
+        [StringLength(55, ErrorMessage = "The {0} must be no longer than {1} characters long.")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
 
-        public AccountSettingsViewModel(ApplicationDbContext ctx)
-        {
+        [Required]
+        [StringLength(55, ErrorMessage = "The {0} must be no longer than {1} characters long.")]
+        [DataType(DataType.Text)]
+        [Display(Name = "Street Address")]
+        public string StreetAddress { get; set; }
 
-        }
+        //public ApplicationUser User { get; set; }
     }
 }

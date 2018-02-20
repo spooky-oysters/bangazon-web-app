@@ -44,5 +44,7 @@ namespace Bangazon.Data
                 .HasDefaultValueSql("GETDATE()");
 
         }
+          
+
     }
 }
