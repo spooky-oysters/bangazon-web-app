@@ -60,9 +60,10 @@ namespace Bangazon.Controllers
         {
 
             // Get current user
-            var user = await GetCurrentUserAsync();
+            //var user = await GetCurrentUserAsync();
 
-            return View(model);
+            //return View(model);
+            return View();
         }
 
         // POST: PaymentType/Create
