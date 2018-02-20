@@ -56,16 +56,16 @@ namespace Bangazon.Controllers
                 return NotFound();
             }
 
+            
             var product = await _context.Product
                 .Include(p => p.ProductType)
                 .SingleOrDefaultAsync(m => m.Title.Contains(titleString));
 
-            //if (!String.IsNullOrEmpty(Title))
+            //if (titleString == product)
             //{
-            //    product = _context.Product.Where(s => s.Title.);
+            //    return View(product);
             //}
-
-            if (product == null)
+                if (product == null)
             {
                 return NotFound();
             }
