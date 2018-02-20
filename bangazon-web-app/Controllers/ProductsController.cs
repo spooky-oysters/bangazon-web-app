@@ -46,16 +46,21 @@ namespace Bangazon.Controllers
         }
 
 
-
+        /*
+         Author: John Dulaney
+         Purpose: this method is used by the search bar in the navbar. 
+         It pulls the products table and sorts through it looking for products that contain the query
+             */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SearchForProduct(string search)
         {
+            //return as 404 if search is null or not found in db
             if (search == null)
             {
                 return NotFound();
             }
-            
+            //find any product that contain the searched value 
             var product = await _context.Product
                 .Include(p => p.ProductType)
                 .Where(m => m.Title.Contains(search))
