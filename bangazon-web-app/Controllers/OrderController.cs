@@ -115,10 +115,9 @@ namespace Bangazon.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[Bind("OrderId,PaymentTypeId,CompletedDate,CreatedDate")] Order order
-        public async Task<IActionResult> CompleteOrder (Order order)
+        public async Task<IActionResult> CompleteOrder ()
         {
-
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
         }
 
         // GET: Order/Edit/5
