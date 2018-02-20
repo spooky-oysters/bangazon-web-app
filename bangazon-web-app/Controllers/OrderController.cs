@@ -121,6 +121,22 @@ namespace Bangazon.Controllers
             return View(order);
         }
 
+        // POST: Order/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Complete([Bind("OrderId,PaymentTypeId,CompletedDate,CreatedDate")] Order order)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(order);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(order);
+        }
+
         // GET: Order/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
