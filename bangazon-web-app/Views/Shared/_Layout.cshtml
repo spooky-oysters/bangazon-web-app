@@ -30,10 +30,10 @@
             </div>
 
             <div class="navbar-left" style="margin-top:8px;">
-                @using (Html.BeginForm("SearchString", "Products", FormMethod.Post))
+                @using (Html.BeginForm("SearchForProduct", "Products", FormMethod.Post))
                 {
                     <ul class="nav navbar-left navbar-nav">
-                        <li>@Html.TextBox("SearchString", ViewBag.CurrentFilter as string)</li>
+                        <li>@Html.TextBox("search", ViewBag.CurrentFilter as string)</li>
                         <li><input type="submit" value="Search For a Product" /></li>
                     </ul>
                 }

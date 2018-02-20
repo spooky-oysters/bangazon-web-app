@@ -49,22 +49,17 @@ namespace Bangazon.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SearchString(string titleString)
+        public async Task<IActionResult> SearchForProduct(string search)
         {
-            if (titleString == null)
+            if (search == null)
             {
                 return NotFound();
             }
-
             
             var product = await _context.Product
                 .Include(p => p.ProductType)
-                .SingleOrDefaultAsync(m => m.Title.Contains(titleString));
-
-            //if (titleString == product)
-            //{
-            //    return View(product);
-            //}
+                .Where(m => m.Title.Contains(search)).ToListAsync();
+            
                 if (product == null)
             {
                 return NotFound();
