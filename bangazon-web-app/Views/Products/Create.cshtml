@@ -4,7 +4,6 @@
     ViewData["Title"] = "Add a product to sell";
 }
 
-
 <h2 class="top-buffer">@ViewData["Title"]</h2>
 
 <form asp-action="Create">
@@ -33,6 +32,13 @@
         </div>
         <div class="form-group">
             <div class="col-md-10">
+                @Html.LabelFor(model => model.Product.Quantity)
+                <input asp-for="@Model.Product.Quantity" class="form-control" />
+                <span asp-validation-for="@Model.Product.Quantity" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
                 @Html.LabelFor(model => model.Product.Image)
                 <input asp-for="@Model.Product.Image" class="form-control" />
                 <span asp-validation-for="@Model.Product.Image" class="text-danger" />
@@ -42,13 +48,13 @@
             <div class="col-md-10">
                 @Html.LabelFor(model => model.Product.ProductTypeId)
                 @Html.DropDownList(
-                            "Product.ProductTypeId",
-                            @Model.ProductTypeId,
-                            new
-                            {
-                                @name = "Product.ProductTypeId"
-                            }
-                        )
+                             "Product.ProductTypeId",
+                             @Model.ProductTypeId,
+                             new
+                             {
+                                 @name = "Product.ProductTypeId"
+                             }
+                         )
                 <span asp-validation-for="@Model.Product.ProductTypeId" class="text-danger" />
             </div>
         </div>

@@ -11,6 +11,9 @@ using System.Security.Claims;
 using System;
 using Bangazon.Models.ProductViewModels;
 
+// Author: Kimberly Bird
+// Controller for products
+
 namespace Bangazon.Controllers
 {
     public class ProductsController : Controller
