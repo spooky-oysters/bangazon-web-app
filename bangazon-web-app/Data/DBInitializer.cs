@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 
 namespace Bangazon.Data
 {
@@ -18,9 +19,11 @@ namespace Bangazon.Data
         */
         public static void Initialize(IServiceProvider services, UserManager<ApplicationUser> userManager)
         {
+            // The pattern of 'using' handles the opening and closing of the 
+            // database connection
             using (var context = services.GetRequiredService<ApplicationDbContext>())
             {
-                //clear the database
+                //clear the database by uncommenting the code
                 /*
                     context.Database.ExecuteSqlCommand("DELETE FROM [ProductType]");
                     context.Database.ExecuteSqlCommand("DELETE FROM [LineItem]");
@@ -52,11 +55,28 @@ namespace Bangazon.Data
                     context.SaveChanges();
                 }
 
-                // create the users
-                ApplicationUser uno = userManager.FindByNameAsync("UNO@UNO.COM").Result;
-                ApplicationUser dos = userManager.FindByNameAsync("DOS@DOS.COM").Result;
-                ApplicationUser tres = userManager.FindByNameAsync("TRES@TRES.COM").Result;
+                /*
+                    The next methods require that three users exist in the system 
+                */
 
+                ApplicationUser uno = new ApplicationUser();
+                ApplicationUser dos = new ApplicationUser();
+                ApplicationUser tres = new ApplicationUser();
+
+                try
+                {
+                    // capture the users
+                    uno = userManager.FindByNameAsync("UNO@UNO.COM").Result;
+                    dos = userManager.FindByNameAsync("DOS@DOS.COM").Result;
+                    tres = userManager.FindByNameAsync("TRES@TRES.COM").Result;
+                }
+                catch (Exception ex) {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "Required users: Uno, Dos, and Tres were not present. Create them and retry.");
+                    return;
+                }
+
+                // Seed the product data
                 if (!context.Product.Any())
                 {
 
@@ -147,6 +167,7 @@ namespace Bangazon.Data
                     context.SaveChanges();
                 } // End Product
 
+                // Seed payment type
                 if (!context.PaymentType.Any())
                 {
 
@@ -199,7 +220,11 @@ namespace Bangazon.Data
 
                     context.SaveChanges();
 
-                }
+                } // End payment types
+
+                /* In this section the program generates a list of line items
+                    to attach to the orders the program creates in a later step    
+                */ 
 
                 // uno's open orders
                 Product uno1 = context.Product.Where(p => p.Title == "Dos Electronics 1").Single();
@@ -234,7 +259,11 @@ namespace Bangazon.Data
 
 
 
-                // Generate orders
+                /*
+                   When creating orders, the program uses the structure of an order
+                   as the key to a database object and the lists created above to 
+                   attach as line items
+                */
                 if (!context.Order.Any())
                 {
 
@@ -275,6 +304,7 @@ namespace Bangazon.Data
                          },
                            productListDos2
                          },
+                        // tres orders
                         { new Order {
                            User = tres,
                            CreatedDate = new DateTime(2017, 1, 18),
@@ -299,10 +329,12 @@ namespace Bangazon.Data
                     {
 
                         context.Order.Add(kvp.Key);
+                        // need to save the changes after creating the order
+                        // in order to accurately capture the id
                         context.SaveChanges();
                         int id = kvp.Key.OrderId;
 
-                        // add line items
+                        // loop through the products in the corresponding list
                         foreach (var p in kvp.Value)
                         {
                             LineItem li = new LineItem();
@@ -317,6 +349,25 @@ namespace Bangazon.Data
                     context.SaveChanges();
 
 
+                }
+            }
+        }
+
+        // This method will seed users into the database
+        // TODO: further refactoring as this sometimes throws an error
+        public static async void AddUsers(IServiceProvider services, UserManager<ApplicationUser> userManager, string UserName) {
+            using (var context = services.GetRequiredService<ApplicationDbContext>())
+            {
+                var user = await userManager.FindByNameAsync(UserName);
+                
+                if (user == null)
+                {
+                    user = new ApplicationUser { UserName = UserName };
+                    user.FirstName = UserName;
+                    user.LastName = UserName;
+                    user.StreetAddress = "55 Klickitat St.";
+                    user.Email = UserName;
+                    await userManager.CreateAsync(user, "P@ss1234");
                 }
             }
         }
