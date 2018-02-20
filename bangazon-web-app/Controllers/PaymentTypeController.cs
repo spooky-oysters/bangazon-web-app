@@ -60,9 +60,8 @@ namespace Bangazon.Controllers
         {
 
             // Get current user
-            //var user = await GetCurrentUserAsync();
+            var user = await GetCurrentUserAsync();
 
-            //return View(model);
             return View();
         }
 
@@ -70,23 +69,25 @@ namespace Bangazon.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PaymentTypeId,DateCreated,Description,AccountNumber")] PaymentType paymentType)
+        public async Task<IActionResult> Create(PaymentType paymentType)
         {
-            ModelState.Remove("paymentType.User");
-            paymentType.DateCreated = null;
+            ModelState.Remove("User");
+
             var user = await GetCurrentUserAsync();
             paymentType.User = user;
 
-            var errors = ModelState.Values.SelectMany(v => v.Errors);
+            //var errors = ModelState.Values.SelectMany(v => v.Errors);
 
             if (ModelState.IsValid)
             {
                 //var errors = ModelState.SelectMany(x => x.Value.Errors.Select(z => z.Exception));
-                //_context.Add(paymentType);
-                //await _context.SaveChangesAsync();
-                //return RedirectToAction(nameof(Index));
+                _context.Add(paymentType);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
+
             return View(paymentType);
         }
 

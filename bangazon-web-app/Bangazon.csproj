@@ -30,4 +30,11 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\PaymentTypeViewModels\Controllers\" />
+    <Folder Include="Areas\PaymentTypeViewModels\Data\" />
+    <Folder Include="Areas\PaymentTypeViewModels\Models\" />
+    <Folder Include="Areas\PaymentTypeViewModels\Views\" />
+  </ItemGroup>
+
 </Project>
