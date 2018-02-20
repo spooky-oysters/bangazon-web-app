@@ -39,9 +39,29 @@ namespace Bangazon.Controllers
             
             // if this is null then there are no active orders
             var userOrders = _context.Order.Where(o => o.User == user && o.CompletedDate == null).SingleOrDefault();
-            var userLineItems = _context.LineItem.Where(l => l.OrderId == userOrders.OrderId);   
+            
+            // get the line items - don't need the order just the products
+            var userLineItems = _context.LineItem.Where(l => l.OrderId == userOrders.OrderId);
+            
+            // sum of all the line items into a collection of anonymous objects
+            var lineItemQuantity = from product in userLineItems
+                          group product by product.ProductId into grouped
+                          select new { grouped.Key, quantity = grouped.Count() };
 
-            return View(await userLineItems.ToListAsync());
+            //var dealercontacts = from contact in DealerContact
+            //                     join dealer in Dealer on contact.DealerId equals dealer.ID
+            //                     select contact;
+
+            model.ShoppingCart = (from l in lineItemQuantity
+                                 join product in _context.Product on l.Key equals product.ProductId
+                                 select new ShoppingCartLineItemViewModel {
+                                     ProductName = product.Title,
+                                     Units = l.quantity,
+                                     Total = l.quantity * product.Price
+                                 }).ToList();
+
+            
+            return View(model);
         }
 
         // GET: Order/Details/5

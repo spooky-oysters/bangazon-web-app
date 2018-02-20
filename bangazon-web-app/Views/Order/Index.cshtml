@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Bangazon.Models.LineItem>
+﻿@model Bangazon.Models.OrderViewModels.ShoppingCartViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -13,31 +13,37 @@
     <thead>
         <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.OrderId)
+                    Product
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.ProductId)
+                    Quantity
                 </th>
-
-            <th></th>
+                <th>
+                    Total
+                </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.ShoppingCart) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.OrderId)
+                @Html.DisplayFor(modelItem => item.ProductName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductId)
+                @Html.DisplayFor(modelItem => item.Units)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
             </td>
 
             <td>
-                <a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.OrderId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.OrderId">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ProductName">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ProductName">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ProductName">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+<input class="btn btn-success" type="submit" value="Complete Order"/>
+<input class="btn btn-primary" type="submit" value="Cancel Order" />
