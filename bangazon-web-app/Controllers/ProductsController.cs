@@ -1,3 +1,4 @@
+
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace Bangazon.Controllers
 {
     public class ProductsController : Controller
     {
+
         private readonly UserManager<ApplicationUser> _userManager;
         private ApplicationDbContext _context;
 
@@ -98,20 +100,28 @@ namespace Bangazon.Controllers
 
             ProductCreateViewModel model = new ProductCreateViewModel(_context);
             return View(model);
-        }
 
-        // GET: Products/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        /*
+         Author: John Dulaney
+         Purpose: this method is used by the search bar in the navbar. 
+         It pulls the products table and sorts through it looking for products that contain the query
+             */
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SearchForProduct(string search)
         {
-            if (id == null)
+            //return as 404 if search is null or not found in db
+            if (search == null)
             {
                 return NotFound();
             }
-
+            //find any product that contain the searched value 
             var product = await _context.Product
                 .Include(p => p.ProductType)
-                .SingleOrDefaultAsync(m => m.ProductId == id);
-            if (product == null)
+                .Where(m => m.Title.Contains(search))
+                .ToListAsync();
+            
+                if (product == null)
             {
                 return NotFound();
             }
@@ -119,16 +129,57 @@ namespace Bangazon.Controllers
             return View(product);
         }
 
-        // POST: Products/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        // GET: Products/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
             var product = await _context.Product.SingleOrDefaultAsync(m => m.ProductId == id);
-            _context.Product.Remove(product);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (product == null)
+            {
+                return NotFound();
+            }
+            ViewData["ProductTypeId"] = new SelectList(_context.ProductType, "ProductTypeId", "Label", product.ProductTypeId);
+            return View(product);
         }
+
+        // POST: Products/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Quantity,DateCreated,Description,Title,Price,ProductTypeId,LocalDelivery,City,Image")] Product product)
+        {
+            if (id != product.ProductId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(product);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProductExists(product.ProductId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["ProductTypeId"] = new SelectList(_context.ProductType, "ProductTypeId", "Label", product.ProductTypeId);
+            return View(product);
 
         private bool ProductExists(int id)
         {
