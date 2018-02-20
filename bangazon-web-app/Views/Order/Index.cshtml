@@ -49,7 +49,7 @@
     <form asp-action="Test">
         <input class="btn btn-success" type="submit" value="Add Payment" />
     </form>
-    <form asp-action="Test">
+    <form asp-action="Delete" asp-route-id="@Model.OrderId">
         <input class="btn btn-primary" type="submit" value="Cancel Order" />
     </form>
 </div>

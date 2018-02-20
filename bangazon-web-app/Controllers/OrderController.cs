@@ -40,6 +40,7 @@ namespace Bangazon.Controllers
             // if this is null then there are no active orders
             var userOrders = _context.Order.Where(o => o.User == user && o.CompletedDate == null).SingleOrDefault();
             
+            
             // get the line items - don't need the order just the products
             var userLineItems = _context.LineItem.Where(l => l.OrderId == userOrders.OrderId);
             
@@ -48,26 +49,36 @@ namespace Bangazon.Controllers
                           group product by product.ProductId into grouped
                           select new { grouped.Key, quantity = grouped.Count() };
 
-            //var dealercontacts = from contact in DealerContact
-            //                     join dealer in Dealer on contact.DealerId equals dealer.ID
-            //                     select contact;
+            try
+            {
+                model.OrderId = userOrders.OrderId;
+                model.ShoppingCart = (from l in lineItemQuantity
+                                      join product in _context.Product on l.Key equals product.ProductId
+                                      select new ShoppingCartLineItemViewModel
+                                      {
+                                          ProductName = product.Title,
+                                          Units = l.quantity,
+                                          Total = l.quantity * product.Price
+                                      }).ToList();
+            }
 
-            model.ShoppingCart = (from l in lineItemQuantity
-                                 join product in _context.Product on l.Key equals product.ProductId
-                                 select new ShoppingCartLineItemViewModel {
-                                     ProductName = product.Title,
-                                     Units = l.quantity,
-                                     Total = l.quantity * product.Price
-                                 }).ToList();
-
+            catch { }
+            // Capture the fields for the ShoppingCartViewModel
             
             return View(model);
         }
 
 
-        public IActionResult Test()
+        public IActionResult Cancel()
         {
-            return RedirectToAction("Index");
+            // remove the order from the database
+            // clear the line items
+           
+            // clear the order
+
+            // redirect to home
+            return RedirectToAction("Index","Home");
+
         }
 
         // GET: Order/Details/5
@@ -176,7 +187,7 @@ namespace Bangazon.Controllers
                 return NotFound();
             }
 
-            return View(order);
+             return RedirectToAction("Index","Home");
         }
 
         // POST: Order/Delete/5

@@ -7,6 +7,14 @@ namespace Bangazon.Models.OrderViewModels
 {
     public class ShoppingCartViewModel
     {
-        public IEnumerable<ShoppingCartLineItemViewModel> ShoppingCart { get; set; }
+
+        public int OrderId { get; set; }
+        public IEnumerable<ShoppingCartLineItemViewModel> ShoppingCart { get; set; } 
+
+        public ShoppingCartViewModel()
+        {
+            ShoppingCart = new List<ShoppingCartLineItemViewModel>();
+        }
+
     }
 }
