@@ -16,6 +16,7 @@ namespace Bangazon.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private Order order;
 
         public OrderController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
@@ -39,7 +40,7 @@ namespace Bangazon.Controllers
             
             // if this is null then there are no active orders
             var userOrders = _context.Order.Where(o => o.User == user && o.CompletedDate == null).SingleOrDefault();
-            
+            order = userOrders;
             
             // get the line items - don't need the order just the products
             var userLineItems = _context.LineItem.Where(l => l.OrderId == userOrders.OrderId);
@@ -68,19 +69,6 @@ namespace Bangazon.Controllers
             return View(model);
         }
 
-
-        public IActionResult Cancel()
-        {
-            // remove the order from the database
-            // clear the line items
-           
-            // clear the order
-
-            // redirect to home
-            return RedirectToAction("Index","Home");
-
-        }
-
         // GET: Order/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -99,42 +87,38 @@ namespace Bangazon.Controllers
             return View(order);
         }
 
-        // GET: Order/Create
-        public IActionResult Create()
+        // GET: Order/Complete - edit the existing form
+        public async Task<IActionResult> Complete (int? id)
         {
-            return View();
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var order = await _context.Order.SingleOrDefaultAsync(m => m.OrderId == id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            ApplicationUser user = await GetCurrentUserAsync();
+            AvailablePaymentTypesViewModel paymentTypes = new AvailablePaymentTypesViewModel(_context, user, order.OrderId);
+
+            return View(paymentTypes);
         }
 
+       
         // POST: Order/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderId,PaymentTypeId,CompletedDate,CreatedDate")] Order order)
+        //[Bind("OrderId,PaymentTypeId,CompletedDate,CreatedDate")] Order order
+        public async Task<IActionResult> CompleteOrder (Order order)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(order);
-        }
 
-        // POST: Order/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Complete([Bind("OrderId,PaymentTypeId,CompletedDate,CreatedDate")] Order order)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(order);
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Order/Edit/5
