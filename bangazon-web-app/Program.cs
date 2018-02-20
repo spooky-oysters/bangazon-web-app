@@ -33,7 +33,7 @@ namespace Bangazon
                 try
                 {
                     var userManager = services.GetService<UserManager<ApplicationUser>>();
-                    DbInitializer.Initialize(services,  userManager);
+                    DbInitializer.InitializeAsync(services,  userManager);
                     
                 }
                 catch (Exception ex)

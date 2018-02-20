@@ -17,7 +17,7 @@ namespace Bangazon.Data
             Author: Krys Mathis (adapted from boilerplate)
             Summary: The initialize method seeds the database. The 
         */
-        public static void Initialize(IServiceProvider services, UserManager<ApplicationUser> userManager)
+        public static async Task InitializeAsync(IServiceProvider services, UserManager<ApplicationUser> userManager)
         {
             // The pattern of 'using' handles the opening and closing of the 
             // database connection
@@ -31,6 +31,134 @@ namespace Bangazon.Data
                     context.Database.ExecuteSqlCommand("DELETE FROM [PaymentType]");
                     context.Database.ExecuteSqlCommand("DELETE FROM [Product]");
                 */
+
+
+                /* Seeding users */
+                var roleStore = new RoleStore<IdentityRole>(context);
+                var userstore = new UserStore<ApplicationUser>(context);
+
+                if (!context.Roles.Any(r => r.Name == "Administrator"))
+                {
+                    var role = new IdentityRole { Name = "Administrator", NormalizedName = "Administrator" };
+                    await roleStore.CreateAsync(role);
+                }
+
+                if (!context.Roles.Any(r => r.Name == "Standard"))
+                {
+                    var role = new IdentityRole { Name = "Standard", NormalizedName = "Standard" };
+                    await roleStore.CreateAsync(role);
+                }
+
+                if (!userManager.Users.Any(u => u.NormalizedUserName == "ADMIN@ADMIN.COM")) 
+                {
+                    //  This method will be called after migrating to the latest version.
+                    ApplicationUser user = new ApplicationUser
+                    {
+                        FirstName = "admin",
+                        LastName = "admin",
+                        StreetAddress = "123 Infinity Way",
+                        UserName = "admin@admin.com",
+                        NormalizedUserName = "ADMIN@ADMIN.COM",
+                        Email = "admin@admin.com",
+                        NormalizedEmail = "ADMIN@ADMIN.COM",
+                        EmailConfirmed = true,
+                        LockoutEnabled = false,
+                        SecurityStamp = Guid.NewGuid().ToString("D")
+                    };
+                    var passwordHash = new PasswordHasher<ApplicationUser>();
+                    user.PasswordHash = passwordHash.HashPassword(user, "Admin8*");
+                    await userstore.CreateAsync(user);
+                    await userstore.AddToRoleAsync(user, "Administrator");
+                }
+
+                if (!userManager.Users.Any(u => u.NormalizedUserName == "UNO@UNO.COM"))
+                {
+                    //  This method will be called after migrating to the latest version.
+                    ApplicationUser user = new ApplicationUser
+                    {
+                        FirstName = "uno",
+                        LastName = "uno",
+                        StreetAddress = "123 Infinity Way",
+                        UserName = "uno@uno.com",
+                        NormalizedUserName = "UNO@UNO.COM",
+                        Email = "uno@uno.com",
+                        NormalizedEmail = "UNO@UNO.COM",
+                        EmailConfirmed = true,
+                        LockoutEnabled = false,
+                        SecurityStamp = Guid.NewGuid().ToString("D")
+                    };
+                    var passwordHash = new PasswordHasher<ApplicationUser>();
+                    user.PasswordHash = passwordHash.HashPassword(user, "P@ss1234");
+                    await userstore.CreateAsync(user);
+                    await userstore.AddToRoleAsync(user, "Standard");
+                }
+
+                if (!userManager.Users.Any(u => u.NormalizedUserName == "DOS@DOS.COM"))
+                {
+                    //  This method will be called after migrating to the latest version.
+                    ApplicationUser user = new ApplicationUser
+                    {
+                        FirstName = "dos",
+                        LastName = "dos",
+                        StreetAddress = "123 Infinity Way",
+                        UserName = "dos@dos.com",
+                        NormalizedUserName = "DOS@DOS.COM",
+                        Email = "dos@dos.com",
+                        NormalizedEmail = "DOS@DOS.COM",
+                        EmailConfirmed = true,
+                        LockoutEnabled = false,
+                        SecurityStamp = Guid.NewGuid().ToString("D")
+                    };
+                    var passwordHash = new PasswordHasher<ApplicationUser>();
+                    user.PasswordHash = passwordHash.HashPassword(user, "P@ss1234");
+                    await userstore.CreateAsync(user);
+                    await userstore.AddToRoleAsync(user, "Standard");
+                }
+
+
+                if (!userManager.Users.Any(u => u.NormalizedUserName == "TRES@TRES.COM"))
+                {
+                    //  This method will be called after migrating to the latest version.
+                    ApplicationUser user = new ApplicationUser
+                    {
+                        FirstName = "tres",
+                        LastName = "tres",
+                        StreetAddress = "123 Infinity Way",
+                        UserName = "tres@tres.com",
+                        NormalizedUserName = "TRES@TRES.COM",
+                        Email = "tres@tres.com",
+                        NormalizedEmail = "TRES@TRES.COM",
+                        EmailConfirmed = true,
+                        LockoutEnabled = false,
+                        SecurityStamp = Guid.NewGuid().ToString("D")
+                    };
+                    var passwordHash = new PasswordHasher<ApplicationUser>();
+                    user.PasswordHash = passwordHash.HashPassword(user, "P@ss1234");
+                    await userstore.CreateAsync(user);
+                    await userstore.AddToRoleAsync(user, "Standard");
+                }
+
+                if (!userManager.Users.Any(u => u.NormalizedUserName == "QUATRO@QUATRO.COM"))
+                {
+                    //  This method will be called after migrating to the latest version.
+                    ApplicationUser user = new ApplicationUser
+                    {
+                        FirstName = "quatro",
+                        LastName = "quatro",
+                        StreetAddress = "123 Infinity Way",
+                        UserName = "quatro@quatro.com",
+                        NormalizedUserName = "QUATRO@QUATRO.COM",
+                        Email = "quatro@quatro.com",
+                        NormalizedEmail = "QUATRO@QUATRO.COM",
+                        EmailConfirmed = true,
+                        LockoutEnabled = false,
+                        SecurityStamp = Guid.NewGuid().ToString("D")
+                    };
+                    var passwordHash = new PasswordHasher<ApplicationUser>();
+                    user.PasswordHash = passwordHash.HashPassword(user, "P@ss1234");
+                    await userstore.CreateAsync(user);
+                    await userstore.AddToRoleAsync(user, "Standard");
+                }
 
                 // If there are any product types already don't overwrite them
                 if (!context.ProductType.Any())
@@ -62,6 +190,7 @@ namespace Bangazon.Data
                 ApplicationUser uno = new ApplicationUser();
                 ApplicationUser dos = new ApplicationUser();
                 ApplicationUser tres = new ApplicationUser();
+                ApplicationUser quatro = new ApplicationUser();
 
                 try
                 {
@@ -69,6 +198,7 @@ namespace Bangazon.Data
                     uno = userManager.FindByNameAsync("UNO@UNO.COM").Result;
                     dos = userManager.FindByNameAsync("DOS@DOS.COM").Result;
                     tres = userManager.FindByNameAsync("TRES@TRES.COM").Result;
+                    quatro = userManager.FindByNameAsync("QUATRO@QUATRO.COM").Result;
                 }
                 catch (Exception ex) {
                     var logger = services.GetRequiredService<ILogger<Program>>();
