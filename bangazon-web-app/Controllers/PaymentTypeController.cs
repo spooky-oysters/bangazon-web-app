@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Bangazon.Data;
 using Bangazon.Models;
 using System.Security.Principal;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Bangazon.Controllers
 {
@@ -53,9 +54,15 @@ namespace Bangazon.Controllers
         }
 
         // GET: PaymentType/Create
-        public IActionResult Create()
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Create()
         {
-            return View();
+
+            // Get current user
+            var user = await GetCurrentUserAsync();
+
+            return View(model);
         }
 
         // POST: PaymentType/Create
@@ -66,14 +73,18 @@ namespace Bangazon.Controllers
         public async Task<IActionResult> Create([Bind("PaymentTypeId,DateCreated,Description,AccountNumber")] PaymentType paymentType)
         {
             ModelState.Remove("paymentType.User");
+            paymentType.DateCreated = null;
+            var user = await GetCurrentUserAsync();
+            paymentType.User = user;
+
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
 
             if (ModelState.IsValid)
             {
-                var user = await GetCurrentUserAsync();
-                paymentType.User = user;
-                _context.Add(paymentType);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //var errors = ModelState.SelectMany(x => x.Value.Errors.Select(z => z.Exception));
+                //_context.Add(paymentType);
+                //await _context.SaveChangesAsync();
+                //return RedirectToAction(nameof(Index));
             }
             return View(paymentType);
         }
