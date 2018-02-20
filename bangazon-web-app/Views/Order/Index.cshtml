@@ -45,5 +45,12 @@
 }
     </tbody>
 </table>
-<input class="btn btn-success" type="submit" value="Complete Order"/>
-<input class="btn btn-primary" type="submit" value="Cancel Order" />
+<div class="btn-toolbar">
+    <form asp-action="Test">
+        <input class="btn btn-success" type="submit" value="Add Payment" />
+    </form>
+    <form asp-action="Test">
+        <input class="btn btn-primary" type="submit" value="Cancel Order" />
+    </form>
+</div>
+

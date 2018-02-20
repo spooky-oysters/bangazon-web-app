@@ -64,6 +64,12 @@ namespace Bangazon.Controllers
             return View(model);
         }
 
+
+        public IActionResult Test()
+        {
+            return RedirectToAction("Index");
+        }
+
         // GET: Order/Details/5
         public async Task<IActionResult> Details(int? id)
         {
