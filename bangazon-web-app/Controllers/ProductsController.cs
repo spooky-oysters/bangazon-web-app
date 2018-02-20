@@ -100,6 +100,7 @@ namespace Bangazon.Controllers
 
             ProductCreateViewModel model = new ProductCreateViewModel(_context);
             return View(model);
+        }
 
         /*
          Author: John Dulaney
@@ -120,70 +121,14 @@ namespace Bangazon.Controllers
                 .Include(p => p.ProductType)
                 .Where(m => m.Title.Contains(search))
                 .ToListAsync();
-            
-                if (product == null)
-            {
-                return NotFound();
-            }
 
-            return View(product);
-        }
-
-        // GET: Products/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Product.SingleOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {
                 return NotFound();
             }
-            ViewData["ProductTypeId"] = new SelectList(_context.ProductType, "ProductTypeId", "Label", product.ProductTypeId);
+
             return View(product);
         }
-
-        // POST: Products/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,Quantity,DateCreated,Description,Title,Price,ProductTypeId,LocalDelivery,City,Image")] Product product)
-        {
-            if (id != product.ProductId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.ProductId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["ProductTypeId"] = new SelectList(_context.ProductType, "ProductTypeId", "Label", product.ProductTypeId);
-            return View(product);
-
-        private bool ProductExists(int id)
-        {
-            return _context.Product.Any(e => e.ProductId == id);
-        }
+        
     }
 }
