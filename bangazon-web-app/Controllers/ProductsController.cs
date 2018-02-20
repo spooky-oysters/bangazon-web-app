@@ -74,6 +74,28 @@ namespace Bangazon.Controllers
             return View(product);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SearchForProductByCity(string search)
+        {
+            //return as 404 if search is null or not found in db
+            if (search == null)
+            {
+                return NotFound();
+            }
+            //find any product that contain the searched value 
+            var product = await _context.Product
+                .Include(p => p.ProductType)
+                .Where(m => m.City.Contains(search))
+                .ToListAsync();
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
+        }
 
         // GET: Products/Create
         public IActionResult Create()
