@@ -7,6 +7,10 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Bangazon.Data;
+using Microsoft.AspNetCore.Identity;
+using Bangazon.Models;
 
 namespace Bangazon
 {
@@ -14,7 +18,32 @@ namespace Bangazon
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            var host = BuildWebHost(args);
+
+            /*
+                Author: Krys Mathis
+                Summary: Initiates the process to seed the database. The method
+                        uses the service provider to send a user manager
+                        to the DbInitializer.Initalize static method.
+                        Errors are logged and sent to the console.
+            */
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var userManager = services.GetService<UserManager<ApplicationUser>>();
+                    DbInitializer.Initialize(services,  userManager);
+                    
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred while seeding the database.");
+                }
+            }
+
+            host.Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
