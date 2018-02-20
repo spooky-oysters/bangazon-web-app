@@ -58,7 +58,8 @@ namespace Bangazon.Controllers
             
             var product = await _context.Product
                 .Include(p => p.ProductType)
-                .Where(m => m.Title.Contains(search)).ToListAsync();
+                .Where(m => m.Title.Contains(search))
+                .ToListAsync();
             
                 if (product == null)
             {
