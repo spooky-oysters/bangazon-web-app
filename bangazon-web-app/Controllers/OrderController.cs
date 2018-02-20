@@ -187,7 +187,7 @@ namespace Bangazon.Controllers
                 return NotFound();
             }
 
-             return RedirectToAction("Index","Home");
+             return RedirectToAction("Delete");
         }
 
         // POST: Order/Delete/5
@@ -198,7 +198,7 @@ namespace Bangazon.Controllers
             var order = await _context.Order.SingleOrDefaultAsync(m => m.OrderId == id);
             _context.Order.Remove(order);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index","Home");
         }
 
         private bool OrderExists(int id)
