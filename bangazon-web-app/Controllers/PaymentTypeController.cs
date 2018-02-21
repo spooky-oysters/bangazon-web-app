@@ -32,6 +32,7 @@ namespace Bangazon.Controllers
         // GET: PaymentType
         public async Task<IActionResult> Index()
         {
+            // Grabs the current user and only displays the current users payment types
             var user = await GetCurrentUserAsync();
             return View(await _context.PaymentType.Where(p => p.User == user).ToListAsync());
         }
@@ -56,16 +57,16 @@ namespace Bangazon.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PaymentType paymentType)
         {
+            // Removes validation for the user
             ModelState.Remove("User");
 
+            // Instantiates the current user to add to the paymentType
             var user = await GetCurrentUserAsync();
             paymentType.User = user;
 
-            //var errors = ModelState.Values.SelectMany(v => v.Errors);
-
             if (ModelState.IsValid)
             {
-                //var errors = ModelState.SelectMany(x => x.Value.Errors.Select(z => z.Exception));
+                // Adds the paymentType to the database
                 _context.Add(paymentType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
