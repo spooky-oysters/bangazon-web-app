@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Bangazon.ViewComponents
 {
+    /*
+         From boilerplate, pasted by Krys Mathis
+    */
     public class OrderCountViewModel
     {
         public int OrderCount { get; set; } = 0;
@@ -40,7 +43,7 @@ namespace Bangazon.ViewComponents
 
             // Determine if there is an active order
             var order = await _context.Order
-                .Include("LineItems.Product")
+                .Include("LineItem.Product")
                 .Where(o => o.User == user && o.PaymentTypeId == null)
                 .SingleOrDefaultAsync()
                 ;
