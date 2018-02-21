@@ -3,13 +3,17 @@ using System.Linq;
 using Bangazon.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Bangazon.Models.ProductViewModels
 {
     public class ProductCreateViewModel
     {
+        [Required]
         public List<SelectListItem> ProductTypeId { get; set; }
+
         public Product Product { get; set; }
+
         public ProductCreateViewModel(ApplicationDbContext ctx)
         {
             // Creating SelectListItems will be used in a @Html.DropDownList
