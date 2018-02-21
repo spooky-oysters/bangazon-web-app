@@ -66,12 +66,8 @@ namespace Bangazon.Controllers
 
             // Get current user
             var user = await GetCurrentUserAsync();
+
             return View(model);
-<<<<<<< HEAD
-
-
-=======
->>>>>>> master
         }
 
         // POST: Products/Create
@@ -108,6 +104,7 @@ namespace Bangazon.Controllers
          Author: John Dulaney
          Purpose: this method is used by the search bar in the navbar. 
          It pulls the products table and sorts through it looking for products that contain the query
+         It also now works with searching by city name. 
              */
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -116,7 +113,7 @@ namespace Bangazon.Controllers
             //return as 404 if search is null or not found in db
             if (search == null)
             {
-                return NotFound();                                                      
+                return NotFound();
             }
             //find any product that contain the searched value 
             var product = await _context.Product
@@ -131,29 +128,6 @@ namespace Bangazon.Controllers
 
             return View(product);
         }
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SearchForProductByCity(string search)
-        {
-            //return as 404 if search is null or not found in db
-            if (search == null)
-            {
-                return NotFound();
-            }
-            //find any product that contain the searched value 
-            var product = await _context.Product
-                .Include(p => p.ProductType)
-                .Where(m => m.City.Contains(search))
-                .ToListAsync();
-
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
-        }
+        
     }
 }
