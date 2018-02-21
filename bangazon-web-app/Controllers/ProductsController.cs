@@ -1,5 +1,4 @@
-
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bangazon.Models;
@@ -69,7 +68,6 @@ namespace Bangazon.Controllers
             var user = await GetCurrentUserAsync();
 
             return View(model);
-
         }
 
         // POST: Products/Create
@@ -95,7 +93,7 @@ namespace Bangazon.Controllers
                 _context.Add(product);
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = product.ProductId });
             }
 
             ProductCreateViewModel model = new ProductCreateViewModel(_context);
@@ -106,6 +104,7 @@ namespace Bangazon.Controllers
          Author: John Dulaney
          Purpose: this method is used by the search bar in the navbar. 
          It pulls the products table and sorts through it looking for products that contain the query
+         It also now works with searching by city name. 
              */
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -119,7 +118,7 @@ namespace Bangazon.Controllers
             //find any product that contain the searched value 
             var product = await _context.Product
                 .Include(p => p.ProductType)
-                .Where(m => m.Title.Contains(search))
+                .Where(m => m.Title.Contains(search) || m.City.Contains(search))
                 .ToListAsync();
 
             if (product == null)

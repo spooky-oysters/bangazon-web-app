@@ -14,6 +14,7 @@ namespace Bangazon.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]       
         public DateTime? DateCreated { get; set; }
 
+
         [Required]
         [StringLength(12)]
         [Display(Name = "Type")]
