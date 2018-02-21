@@ -35,24 +35,6 @@ namespace Bangazon.Controllers
             return View(await _context.PaymentType.ToListAsync());
         }
 
-        // GET: PaymentType/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var paymentType = await _context.PaymentType
-                .SingleOrDefaultAsync(m => m.PaymentTypeId == id);
-            if (paymentType == null)
-            {
-                return NotFound();
-            }
-
-            return View(paymentType);
-        }
-
         // GET: PaymentType/Create
         [HttpGet]
         [Authorize]
@@ -88,57 +70,6 @@ namespace Bangazon.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(paymentType);
-        }
-
-        // GET: PaymentType/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var paymentType = await _context.PaymentType.SingleOrDefaultAsync(m => m.PaymentTypeId == id);
-            if (paymentType == null)
-            {
-                return NotFound();
-            }
-            return View(paymentType);
-        }
-
-        // POST: PaymentType/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PaymentTypeId,DateCreated,Description,AccountNumber")] PaymentType paymentType)
-        {
-            if (id != paymentType.PaymentTypeId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(paymentType);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PaymentTypeExists(paymentType.PaymentTypeId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
             return View(paymentType);
         }
 
