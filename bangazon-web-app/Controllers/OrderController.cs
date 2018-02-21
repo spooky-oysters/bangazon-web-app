@@ -103,7 +103,7 @@ namespace Bangazon.Controllers
             }
 
             ApplicationUser user = await GetCurrentUserAsync();
-            AvailablePaymentTypesViewModel paymentTypes = new AvailablePaymentTypesViewModel(_context, user, order.OrderId);
+            AvailablePaymentTypesViewModel paymentTypes = new AvailablePaymentTypesViewModel(_context, user, order);
 
             return View(paymentTypes);
         }
@@ -115,8 +115,25 @@ namespace Bangazon.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[Bind("OrderId,PaymentTypeId,CompletedDate,CreatedDate")] Order order
-        public async Task<IActionResult> CompleteOrder ()
+        public async Task<IActionResult> CompleteOrder (int PaymentTypeId, [FromRoute] int id)
         {
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+
+                // apply the completed date
+                order.CompletedDate = DateTime.Now;
+                
+                // do the update
+                _context.Update(order);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
             return RedirectToAction("Index");
         }
 

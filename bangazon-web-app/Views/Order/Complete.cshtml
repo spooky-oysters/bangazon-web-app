@@ -13,7 +13,7 @@
         <form asp-action="CompleteOrder">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                @Html.LabelFor(model => model.PaymentTypeId)
+                @Html.LabelFor(model => model.Order.PaymentTypeId)
                 @Html.DropDownList(
                       "Model.PaymentTypeId",
                       @Model.PaymentTypeId,

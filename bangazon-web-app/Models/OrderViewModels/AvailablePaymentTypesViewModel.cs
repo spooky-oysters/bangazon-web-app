@@ -16,12 +16,12 @@ namespace Bangazon.Models.OrderViewModels
     public class AvailablePaymentTypesViewModel
     {
 
-        public int OrderId { get; set; }
         public List<SelectListItem> PaymentTypeId { get; set; }
+        public Order Order { get; set; }
 
-        public AvailablePaymentTypesViewModel(ApplicationDbContext context, ApplicationUser user, int orderId)
+        public AvailablePaymentTypesViewModel(ApplicationDbContext context, ApplicationUser user, Order order)
         {
-            OrderId = orderId;
+            Order = order;
             this.PaymentTypeId = context.PaymentType.Where(p => p.User == user)
                                     .AsEnumerable()
                                     .Select(li => new SelectListItem
