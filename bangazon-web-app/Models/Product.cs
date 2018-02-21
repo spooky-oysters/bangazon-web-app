@@ -40,7 +40,6 @@ namespace Bangazon.Models
 
         public ProductType ProductType { get; set; }
 
-        [Required]
         public bool LocalDelivery { get; set; }
 
         public string City { get; set; }

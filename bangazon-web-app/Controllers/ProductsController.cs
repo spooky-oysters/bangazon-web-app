@@ -94,7 +94,11 @@ namespace Bangazon.Controllers
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Details", new { id = product.ProductId });
+<<<<<<< HEAD
             } 
+=======
+            }
+>>>>>>> master
 
             ProductCreateViewModel model = new ProductCreateViewModel(_context);
             return View(model);
