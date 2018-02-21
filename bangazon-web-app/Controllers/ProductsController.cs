@@ -114,7 +114,7 @@ namespace Bangazon.Controllers
             //return as 404 if search is null or not found in db
             if (search == null)
             {
-                return NotFound();
+                return NotFound();                                                      
             }
             //find any product that contain the searched value 
             var product = await _context.Product
