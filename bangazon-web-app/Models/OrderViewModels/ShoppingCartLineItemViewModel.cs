@@ -8,7 +8,10 @@ namespace Bangazon.Models.OrderViewModels
 {
     public class ShoppingCartLineItemViewModel
     {
+        public int ProductId { get; set; }
+
         public string ProductName { get; set; }
+
         public int Units { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C}")]

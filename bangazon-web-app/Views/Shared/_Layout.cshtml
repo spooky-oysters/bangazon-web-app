@@ -20,8 +20,8 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -32,20 +32,20 @@
             <div class="navbar-left" style="margin-top:8px;">
                 @using (Html.BeginForm("SearchForProduct", "Products", FormMethod.Post))
                 {
-                    <ul class="nav navbar-left navbar-nav">
-                        <li>@Html.TextBox("search", ViewBag.CurrentFilter as string)</li>
-                        <li><input type="submit" value="Search For a Product" class="btn-default btn-group-lg"  /></li>
-                    </ul>
+                <ul class="nav navbar-left navbar-nav">
+                    <li>@Html.TextBox("search", ViewBag.CurrentFilter as string, null, new { @placeholder = "Enter a product name or City"})</li>
+                    <li><input type="submit" value="Search" class="btn-success" /></li>
+
+                </ul>
                 }
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="ProductCategories">View Product Categories</a></li>  
                 </ul>
-            </div>
             @await Html.PartialAsync("_LoginPartial")
+            </div>
     </nav>
     <div class="container body-content">
         @RenderBody()
