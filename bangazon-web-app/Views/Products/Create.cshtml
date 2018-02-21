@@ -56,8 +56,7 @@
                                 @name = "Product.ProductTypeId"
                             }
                         )
-                <span asp-validation-for="@Model.Product.ProductTypeId" class="text-danger" />
-                <p>* Product Category is Required</p>
+                @Html.ValidationMessageFor(model => model.Product.ProductTypeId, "", new { @class="text-danger"})
             </div>
         </div>
         <div class="form-group">

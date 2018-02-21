@@ -10,13 +10,14 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using System;
 using Bangazon.Models.ProductViewModels;
+using System.ComponentModel.DataAnnotations;
 
 // Author: Kimberly Bird
 // Controller for products
 
 namespace Bangazon.Controllers
 {
-    public class ProductsController : Controller
+    public class ProductsController : Controller 
     {
 
         private readonly UserManager<ApplicationUser> _userManager;
@@ -94,11 +95,8 @@ namespace Bangazon.Controllers
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Details", new { id = product.ProductId });
-<<<<<<< HEAD
             } 
-=======
-            }
->>>>>>> master
+
 
             ProductCreateViewModel model = new ProductCreateViewModel(_context);
             return View(model);

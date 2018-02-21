@@ -12,6 +12,7 @@ namespace Bangazon.Models.ProductViewModels
         [Required]
         public List<SelectListItem> ProductTypeId { get; set; }
 
+        [Required]
         public Product Product { get; set; }
 
         public ProductCreateViewModel(ApplicationDbContext ctx)
@@ -27,9 +28,10 @@ namespace Bangazon.Models.ProductViewModels
                     Value = li.ProductTypeId.ToString()
                 }).ToList();
 
+            // adds initial drop down select item
             this.ProductTypeId.Insert(0, new SelectListItem
             {
-                Text = "Choose category...",
+                Text = "Choose Category...",
                 Value = "0"
             });
         }
