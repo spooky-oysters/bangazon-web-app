@@ -1,0 +1,56 @@
+﻿@model Bangazon.Models.OrderViewModels.ShoppingCartViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    Product
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Total
+                </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.ShoppingCart) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Units)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ProductName">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ProductName">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ProductName">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<div class="btn-toolbar">
+    <form asp-action="AddPaymentType" asp-controller="Order" asp-route-id="@Model.OrderId">
+        <input class="btn btn-success" type="submit" value="Complete Order" />
+    </form>
+    <form asp-action="Delete" asp-route-id="@Model.OrderId">
+        <input class="btn btn-primary" type="submit" value="Cancel Order" />
+    </form>
+</div>
+

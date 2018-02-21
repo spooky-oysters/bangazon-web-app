@@ -24,13 +24,13 @@ namespace Bangazon.Data
             using (var context = services.GetRequiredService<ApplicationDbContext>())
             {
                 //clear the database by uncommenting the code
-                /*
-                    context.Database.ExecuteSqlCommand("DELETE FROM [ProductType]");
-                    context.Database.ExecuteSqlCommand("DELETE FROM [LineItem]");
-                    context.Database.ExecuteSqlCommand("DELETE FROM [Order]");
-                    context.Database.ExecuteSqlCommand("DELETE FROM [PaymentType]");
-                    context.Database.ExecuteSqlCommand("DELETE FROM [Product]");
-                */
+
+                context.Database.ExecuteSqlCommand("DELETE FROM [LineItem]");
+                context.Database.ExecuteSqlCommand("DELETE FROM [Order]");
+                context.Database.ExecuteSqlCommand("DELETE FROM [PaymentType]");
+                context.Database.ExecuteSqlCommand("DELETE FROM [Product]");
+                context.Database.ExecuteSqlCommand("DELETE FROM [ProductType]");
+
 
                 // If there are any product types already don't overwrite them
                 if (!context.ProductType.Any())
@@ -233,8 +233,9 @@ namespace Bangazon.Data
 
                 // uno's closed orders
                 Product uno3 = context.Product.Where(p => p.Title == "Dos Electronics 2").Single();
+                Product uno5 = context.Product.Where(p => p.Title == "Dos Electronics 2").Single();
                 Product uno4 = context.Product.Where(p => p.Title == "Tres Appliances 2").Single();
-                List<Product> productListUno2 = new List<Product>() { uno3, uno4 };
+                List<Product> productListUno2 = new List<Product>() { uno3, uno4, uno5 };
 
                 // dos's closed orders
                 Product dos1 = context.Product.Where(p => p.Title == "Uno Housewares 1").Single();
