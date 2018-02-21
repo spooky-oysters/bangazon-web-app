@@ -62,10 +62,14 @@ namespace Bangazon.Controllers
                                       join product in _context.Product on l.Key equals product.ProductId
                                       select new ShoppingCartLineItemViewModel
                                       {
+                                          ProductId = product.ProductId,
                                           ProductName = product.Title,
                                           Units = l.quantity,
                                           Total = l.quantity * product.Price
                                       }).ToList();
+                
+                // sum of total from the shopping cart items
+                model.ShoppingCartTotal = model.ShoppingCart.Sum(i => i.Total);
             }
 
             catch { }
@@ -177,6 +181,32 @@ namespace Bangazon.Controllers
             return RedirectToAction("Index","Home");
         }
 
+        /*
+            This method takes the productId and OrderId from the order line, then
+            looks up the line item(s) from the database and removes each one.
+        */
+        public async Task<IActionResult> RemoveItemFromCart(int productId, int orderId)
+        {
+            // get the line item(s)
+            var li = _context.LineItem.Where(l => l.OrderId == orderId && l.ProductId == productId);
+
+            if (li == null) {
+                return NotFound();
+            }
+
+            // if there are multiple line items remoe each one in a loop
+            foreach (LineItem l in li) {
+                 _context.LineItem.Remove(l);
+
+            }
+           
+            await _context.SaveChangesAsync();
+            
+            // redirect the user to the order
+            return RedirectToAction("Index");
+
+            //TODO: what happens when the order has no values
+        }
         private bool OrderExists(int id)
         {
             return _context.Order.Any(e => e.OrderId == id);
