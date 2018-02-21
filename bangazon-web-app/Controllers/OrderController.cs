@@ -16,7 +16,7 @@ namespace Bangazon.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private Order order;
+
 
         public OrderController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
@@ -27,20 +27,25 @@ namespace Bangazon.Controllers
 
         // This task retrieves the currently authenticated user
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
-        
+
+
         // GET: Order
         public async Task<IActionResult> Index()
         {
             ShoppingCartViewModel model = new ShoppingCartViewModel();
             ApplicationUser user = await GetCurrentUserAsync();
 
+            // If the user is not authenticated do not show order
+            if (user == null) {
+                return RedirectToAction("Index", "Home");
+            }
             // loop through the correct order and display it
             // each line will be a shopping cart view model
             // will be appended to the model
             
             // if this is null then there are no active orders
             var userOrders = _context.Order.Where(o => o.User == user && o.CompletedDate == null).SingleOrDefault();
-            order = userOrders;
+
             
             // get the line items - don't need the order just the products
             var userLineItems = _context.LineItem.Where(l => l.OrderId == userOrders.OrderId);
@@ -69,25 +74,9 @@ namespace Bangazon.Controllers
             return View(model);
         }
 
-        // GET: Order/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var order = await _context.Order
-                .SingleOrDefaultAsync(m => m.OrderId == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return View(order);
-        }
 
         // GET: Order/Complete - edit the existing form
+        // This action sends the user to
         public async Task<IActionResult> Complete (int? id)
         {
 
@@ -96,96 +85,67 @@ namespace Bangazon.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Order.SingleOrDefaultAsync(m => m.OrderId == id);
-            if (order == null)
+            // Convert the id to an int
+            id = Convert.ToInt32(id);
+
+            // Get the open order and validate that one is returned
+            Order openOrder = _context.Order.Where(o => o.OrderId == id).SingleOrDefault();
+            
+            if (openOrder == null)
             {
                 return NotFound();
             }
 
+            // get the current user
             ApplicationUser user = await GetCurrentUserAsync();
-            AvailablePaymentTypesViewModel paymentTypes = new AvailablePaymentTypesViewModel(_context, user, order);
+            CompleteOrderViewModel paymentTypes = new CompleteOrderViewModel(_context, user, openOrder);
 
             return View(paymentTypes);
         }
 
-       
+
         // POST: Order/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[Bind("OrderId,PaymentTypeId,CompletedDate,CreatedDate")] Order order
-        public async Task<IActionResult> CompleteOrder (int PaymentTypeId, [FromRoute] int id)
+        public async Task<IActionResult> CompleteOrder(int id, [Bind("OrderId,PaymentTypeId,CompletedDate,CreatedDate")] Order order)
         {
-            if (order == null)
             {
-                return NotFound();
-            }
+                if (order == null)
+                {
+                    return NotFound();
+                }
 
-            if (ModelState.IsValid)
-            {
+                ModelState.Remove("order.User");
+                ModelState.Remove("order.LineItem");
 
-                // apply the completed date
+                // assign the date time
                 order.CompletedDate = DateTime.Now;
-                
-                // do the update
-                _context.Update(order);
-                await _context.SaveChangesAsync();
 
-                return RedirectToAction("Index");
-            }
-            return RedirectToAction("Index");
-        }
-
-        // GET: Order/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var order = await _context.Order.SingleOrDefaultAsync(m => m.OrderId == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            return View(order);
-        }
-
-        // POST: Order/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderId,PaymentTypeId,CompletedDate,CreatedDate")] Order order)
-        {
-            if (id != order.OrderId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrderExists(order.OrderId))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(order);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!OrderExists(order.OrderId))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                return View(order);
             }
-            return View(order);
         }
 
         // GET: Order/Delete/5
