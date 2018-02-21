@@ -32,10 +32,16 @@
             <div class="navbar-left" style="margin-top:8px;">
                 @using (Html.BeginForm("SearchForProduct", "Products", FormMethod.Post))
                 {
-                    <ul class="nav navbar-left navbar-nav">
-                        <li>@Html.TextBox("search", ViewBag.CurrentFilter as string)</li>
-                        <li><input type="submit" value="Search For a Product" class="btn-default btn-group-lg"  /></li>
-                    </ul>
+                <ul class="nav navbar-left navbar-nav">
+                    <li>@Html.TextBox("search", ViewBag.CurrentFilter as string)</li>
+                    <li><input type="submit" value="Search For a Product" class="btn-default btn-group-lg" /></li>
+
+
+
+
+                    @Html.RadioButton("Search By Name", "Search By Name")
+                    @Html.RadioButton("Search By City", "Search By City")
+                </ul>
                 }
             </div>
             <div class="navbar-collapse collapse">
