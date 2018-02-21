@@ -1,5 +1,4 @@
-
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Bangazon.Models;
@@ -68,8 +67,11 @@ namespace Bangazon.Controllers
             // Get current user
             var user = await GetCurrentUserAsync();
             return View(model);
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> master
         }
 
         // POST: Products/Create
@@ -95,7 +97,7 @@ namespace Bangazon.Controllers
                 _context.Add(product);
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = product.ProductId });
             }
 
             ProductCreateViewModel model = new ProductCreateViewModel(_context);
