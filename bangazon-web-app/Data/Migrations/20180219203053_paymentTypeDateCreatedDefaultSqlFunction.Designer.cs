@@ -11,9 +11,10 @@ using System;
 namespace Bangazon.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180219203053_paymentTypeDateCreatedDefaultSqlFunction")]
+    partial class paymentTypeDateCreatedDefaultSqlFunction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,7 +131,7 @@ namespace Bangazon.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(20);
 
-                    b.Property<DateTime?>("DateCreated")
+                    b.Property<DateTime>("DateCreated")
                         .ValueGeneratedOnAddOrUpdate()
                         .HasDefaultValueSql("GETDATE()");
 

@@ -9,17 +9,20 @@ namespace Bangazon.Models
     {
         [Key]
         public int PaymentTypeId { get; set; }
-
-        [Required]
+        
         [DataType(DataType.Date)]
-        public DateTime DateCreated { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]       
+        public DateTime? DateCreated { get; set; }
+
 
         [Required]
         [StringLength(12)]
+        [Display(Name = "Type")]
         public string Description { get; set; }
 
         [Required]
         [StringLength(20)]
+        [Display(Name = "Account Number")]
         public string AccountNumber { get; set; }
 
         [Required]

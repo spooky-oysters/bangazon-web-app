@@ -16,7 +16,8 @@ namespace Bangazon.Data
 
             public DbSet<Order> Order { get; set; }
             public DbSet<LineItem> LineItem { get; set; }
-            public DbSet<PaymentType> PaymentType { get; set; }
+            public DbSet<PaymentType> PaymentType {
+            get; set; }
             public DbSet<Product> Product { get; set; }
             public DbSet<ProductType> ProductType { get; set; }
             
@@ -38,6 +39,12 @@ namespace Bangazon.Data
                 .Property(o => o.CreatedDate)
                 .HasDefaultValueSql("GETDATE()");
 
+            builder.Entity<PaymentType>()
+                .Property(p => p.DateCreated)
+                .HasDefaultValueSql("GETDATE()");
+
         }
+          
+
     }
 }
