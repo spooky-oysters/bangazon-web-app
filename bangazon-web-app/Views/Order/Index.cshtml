@@ -46,7 +46,7 @@
     </tbody>
 </table>
 <div class="btn-toolbar">
-    <form asp-action="Complete" asp-controller="Order" asp-route-id="@Model.OrderId">
+    <form asp-action="AddPaymentType" asp-controller="Order" asp-route-id="@Model.OrderId">
         <input class="btn btn-success" type="submit" value="Complete Order" />
     </form>
     <form asp-action="Delete" asp-route-id="@Model.OrderId">

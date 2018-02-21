@@ -77,7 +77,7 @@ namespace Bangazon.Controllers
 
         // GET: Order/Complete - edit the existing form
         // This action sends the user to
-        public async Task<IActionResult> Complete (int? id)
+        public async Task<IActionResult> AddPaymentType (int? id)
         {
 
             if (id == null)
@@ -142,7 +142,7 @@ namespace Bangazon.Controllers
                             throw;
                         }
                     }
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("OrderComplete");
                 }
                 return View(order);
             }
@@ -180,6 +180,13 @@ namespace Bangazon.Controllers
         private bool OrderExists(int id)
         {
             return _context.Order.Any(e => e.OrderId == id);
+        }
+        public IActionResult OrderComplete() {
+            return View();
+        }
+        // Send the user to the home screen
+        public IActionResult GoHome() {
+            return RedirectToAction("Index", "Home");
         }
     }
 }
