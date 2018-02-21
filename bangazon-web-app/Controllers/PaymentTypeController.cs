@@ -32,7 +32,8 @@ namespace Bangazon.Controllers
         // GET: PaymentType
         public async Task<IActionResult> Index()
         {
-            return View(await _context.PaymentType.ToListAsync());
+            var user = await GetCurrentUserAsync();
+            return View(await _context.PaymentType.Where(p => p.User == user).ToListAsync());
         }
 
         // GET: PaymentType/Create
