@@ -39,6 +39,13 @@ namespace Bangazon.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
+
+        /*
+            Author:     Krys Mathis
+            Purpose:    Display product details page, which includes a calculation for the 
+                        available quantity for the items
+            ViewModel:  ProductDetailViewModel
+        */
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -50,12 +57,80 @@ namespace Bangazon.Controllers
             var product = await _context.Product
                 .Include(p => p.ProductType)
                 .SingleOrDefaultAsync(m => m.ProductId == id);
+
             if (product == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            ProductDetailViewModel model = new ProductDetailViewModel();
+            model.Title = product.Title;
+            model.Description = product.Description;
+            model.Price = product.Price;
+            model.ProductId = product.ProductId;
+
+
+            int initialQuantity = product.Quantity;
+
+            var lineItemsWithProduct = _context.LineItem.Where(l => l.ProductId == product.ProductId);
+            var onlyLineItemsOnClosedOrders = from l in lineItemsWithProduct
+                                              join o in _context.Order on l.OrderId equals o.OrderId
+                                              where o.PaymentTypeId != null
+                                              select new { l.ProductId };
+
+            model.AvailableQuantity = initialQuantity - onlyLineItemsOnClosedOrders.Count();
+
+            return View(model);
+        }
+
+        /*
+            Author:     Krys Mathis
+            Purpose:    To add a product to an order. In cases where the current user does not have
+                        an active order it will create an open order.
+            Parameters: ProductId
+        */
+    
+        [Authorize]
+        public async Task<IActionResult> AddProductToCart(int? id) {
+
+            ApplicationUser user = await GetCurrentUserAsync();
+
+            Order order = GetOpenOrderForUser(user);
+
+            if (order == null)
+            {
+                order = CreateNewOrderForUser(user);
+            }
+
+            LineItem lineItem = new LineItem() { OrderId = order.OrderId, ProductId = Convert.ToInt32(id) };
+
+            _context.LineItem.Add(lineItem);
+            await _context.SaveChangesAsync();
+
+            // TODO: have it trigger an alert to the user that this occurred?
+
+            return RedirectToAction("Details",new { id = id });
+        }
+
+        /*
+            Author:     Krys Mathis
+            Purpose:    Check if current user has an open order
+            Parameter:  User
+            Return:     bool
+        */
+        public Order GetOpenOrderForUser(ApplicationUser user) {
+            
+            return _context.Order.Where(o => o.User == user && o.PaymentTypeId == null).SingleOrDefault();
+   
+        }
+        public Order CreateNewOrderForUser(ApplicationUser user) {
+            // create new orer
+            Order order = new Order() { User = user, CreatedDate = DateTime.Now };
+           
+            _context.Order.Add(order);
+            _context.SaveChangesAsync();
+
+            return order;
         }
 
         // GET: Products/Create
