@@ -73,6 +73,7 @@ namespace Bangazon.Controllers
             int initialQuantity = product.Quantity;
 
             var lineItemsWithProduct = _context.LineItem.Where(l => l.ProductId == product.ProductId);
+
             var onlyLineItemsOnClosedOrders = from l in lineItemsWithProduct
                                               join o in _context.Order on l.OrderId equals o.OrderId
                                               where o.PaymentTypeId != null
@@ -95,21 +96,21 @@ namespace Bangazon.Controllers
 
             ApplicationUser user = await GetCurrentUserAsync();
 
-            Order order = GetOpenOrderForUser(user);
+            Order order = await GetOpenOrderForUserAsync(user);
 
             if (order == null)
             {
-                order = CreateNewOrderForUser(user);
+                order = await CreateNewOrderForUserAsync(user);
             }
 
             LineItem lineItem = new LineItem() { OrderId = order.OrderId, ProductId = Convert.ToInt32(id) };
 
-            _context.LineItem.Add(lineItem);
+            await _context.LineItem.AddAsync(lineItem);
             await _context.SaveChangesAsync();
 
             // TODO: have it trigger an alert to the user that this occurred?
 
-            return RedirectToAction("Details",new { id = id });
+            return RedirectToAction("Index","Order");
         }
 
         /*
@@ -118,17 +119,17 @@ namespace Bangazon.Controllers
             Parameter:  User
             Return:     bool
         */
-        public Order GetOpenOrderForUser(ApplicationUser user) {
+        public async Task<Order> GetOpenOrderForUserAsync(ApplicationUser user) {
             
-            return _context.Order.Where(o => o.User == user && o.PaymentTypeId == null).SingleOrDefault();
+            return await _context.Order.Where(o => o.User == user && o.PaymentTypeId == null).SingleOrDefaultAsync();
    
         }
-        public Order CreateNewOrderForUser(ApplicationUser user) {
+        public async Task<Order> CreateNewOrderForUserAsync(ApplicationUser user) {
             // create new orer
             Order order = new Order() { User = user, CreatedDate = DateTime.Now };
            
             _context.Order.Add(order);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return order;
         }
