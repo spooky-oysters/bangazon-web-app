@@ -1,22 +1,77 @@
-﻿@{
+﻿@model Bangazon.Models.ProductViewModels.ProductListViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
-    <div asp-controller="Products" asp-action="">
-        <ul>
-                @*@foreach (var topProduct in model.ProductListView)
-                {
-                    if (topProduct < 20)
-                    {
-                    <li>@topProduct</li>
-                    } else
-                    {
-                        break;
-                    }
+        
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(modelItem => topProduct.Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(modelItem => model.DateCreated)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(modelItem => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(modelItem => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(modelItem => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(modelItem => model.LocalDelivery)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(modelItem => model.City)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(mmodelItemodel => model.Image)
+                </th>
+            <th>
+                @Html.DisplayNameFor(modelItem => model.ProductType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var topProduct in @Model.TopProduct)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => topProduct.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => topProduct.DateCreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => topProduct.Description)
+                </td>
+                <td>
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@topProduct.ProductId">@Html.DisplayFor(modelItem => topProduct.Title)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => topProduct.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => topProduct.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => topProduct.Image)
+                </td>
+                <td></td>
 
-                }*@
-        </ul>
-    </div>
 
+                @*<td>
+                        @Html.DisplayFor(modelItem => topProduct.Label)
+                    </td>*@
 
+            </tr>
+        }
 
+    </tbody>
+</table>
+   

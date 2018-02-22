@@ -1,14 +1,11 @@
-﻿using Bangazon.Data;
-using Bangazon.Models;
+﻿// Author: John Dulaney
+// Description: This viewmodel helps the Index populate the topproduct listings
 using System.Collections.Generic;
 
-namespace bangazon.models.ProductViewModels
+namespace Bangazon.Models.ProductViewModels
 {
     public class ProductListViewModel
     {
-        public Product product { get; set; }
-        public IEnumerable<ProductListViewModel> TopProduct { get; set; }
-        //public productlistviewmodel(ApplicationDbContext ctx)
-        
+        public IEnumerable<Product> TopProduct { get; set; }
     }
 }
