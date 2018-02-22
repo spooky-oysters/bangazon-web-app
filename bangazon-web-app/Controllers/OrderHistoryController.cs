@@ -32,12 +32,18 @@ namespace Bangazon.Controllers
         // GET: OrderHistory
         public async Task<IActionResult> Index()
         {
+            // Instantiate the ViewModel
             OrderHistoryViewModel model = new OrderHistoryViewModel();
 
+            // Grab the currently logged in user
             var user = await GetCurrentUserAsync();
 
-            model.Orders = _context.Order.Include("PaymentType")
-                .Where(o => o.User == user && o.PaymentTypeId != null).ToList();
+            // Queries for orders that have been completed and includes all the payment types associated with the orders
+            model.Orders = await _context
+                .Order
+                .Include("PaymentType")
+                .Where(o => o.User == user && o.PaymentTypeId != null)
+                .ToListAsync();
 
             return View(model);
         }
@@ -45,8 +51,24 @@ namespace Bangazon.Controllers
         // GET: OrderHistory/Details/5
         public async Task<IActionResult> Details(int id)
         {
+            OrderHistoryDetailViewModel model = new OrderHistoryDetailViewModel();
 
-            return View();
+            model.Order = await _context
+                 .Order
+                 .SingleOrDefaultAsync(o => o.OrderId == id);
+
+            model.Products = await _context
+                 .LineItem
+                 .Include("Product")
+                 .Where(l => l.OrderId == id)
+                 .ToListAsync();
+
+            if (model.Products == null)
+            {
+                return NotFound();
+            }
+
+            return View(model);
         }
 
         
