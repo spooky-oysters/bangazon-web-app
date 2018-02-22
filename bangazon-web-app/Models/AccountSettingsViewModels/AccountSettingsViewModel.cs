@@ -8,10 +8,7 @@ using System.Threading.Tasks;
 namespace Bangazon.Models
 {
     public class AccountSettingsViewModel
-    {
-        public ICollection<PaymentType> PaymentOptions { get; set; }
-        public ICollection<Order> OrderHistory { get; set; }
-
+    {        
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
