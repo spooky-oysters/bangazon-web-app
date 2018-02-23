@@ -1,4 +1,4 @@
-﻿using System;
+﻿  using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +23,6 @@ namespace Bangazon.Controllers
             _context = context;
             _userManager = userManager;
         }
-
 
         // This task retrieves the currently authenticated user
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
@@ -114,9 +113,10 @@ namespace Bangazon.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[Bind("OrderId,PaymentTypeId,CompletedDate,CreatedDate")] Order order
-        public async Task<IActionResult> CompleteOrder(int id, [Bind("OrderId,PaymentTypeId,CompletedDate,CreatedDate")] Order order)
+        public async Task<IActionResult> CompleteOrder(int id, [Bind("OrderId,PaymentTypeId,CompletedDate,CreatedDate")] Order order, bool paymentTypeError)
         {
             {
+                
                 if (order == null)
                 {
                     return NotFound();
@@ -125,8 +125,17 @@ namespace Bangazon.Controllers
                 ModelState.Remove("order.User");
                 ModelState.Remove("order.LineItem");
 
+                // validate the payment type is there
+                if (order.PaymentTypeId == 0) {
+                
+
+                    return RedirectToAction("AddPaymentType", new { id = order.OrderId, paymentTypeError = true });
+                }
+
                 // assign the date time
                 order.CompletedDate = DateTime.Now;
+
+
 
                 if (ModelState.IsValid)
                 {
@@ -218,5 +227,7 @@ namespace Bangazon.Controllers
         public IActionResult GoHome() {
             return RedirectToAction("Index", "Home");
         }
+
+     
     }
 }
